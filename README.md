@@ -3,16 +3,11 @@
 ## Overview
 This project is a React-based ecommerce UI built with Vite. It features product listing, filtering, sorting, and product detail views.
 
-## Getting Started
+## Project Setup
 
-### Prerequisites
-- Node.js (v16 or higher recommended)
-- npm or yarn
-
-### Installation
 1. Clone the repository:
 	```sh
-	git clone <your-repo-url>
+	git clone https://github.com/Harshal1435/E-commerse.git
 	cd project
 	```
 2. Install dependencies:
@@ -21,6 +16,14 @@ This project is a React-based ecommerce UI built with Vite. It features product 
 	# or
 	yarn install
 	```
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v16 or higher recommended)
+- npm or yarn
+
+
 
 ### Running the App
 To start the development server:
