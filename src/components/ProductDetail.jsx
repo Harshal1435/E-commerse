@@ -31,7 +31,7 @@ export default function ProductDetail({ product, onClose }) {
             className="w-full h-80 object-contain"
           />
 
-          {/* Thumbnails if available */}
+       
           {product.images && product.images.length > 1 && (
             <div className="flex gap-2 mt-4 overflow-x-auto">
               {product.images.map((img, idx) => (

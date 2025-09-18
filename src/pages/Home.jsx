@@ -35,7 +35,7 @@ export default function Home() {
 
       {/* ✅ Hero Banner */}
   
-      <HeroSection />
+   
 
       {/* ✅ Categories Row */}
       <FilterBar categories={categories} selected={category} onSelect={setCategory} />
