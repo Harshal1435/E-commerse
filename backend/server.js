@@ -3,10 +3,36 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const path = require("path");
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 dotenv.config();
 
 const app = express();
+
+const frontendPath = path.join(__dirname, "../frontend");
+const frontendDistPath = path.join(frontendPath, "dist");
+
+// Auto create frontend dist if missing
+if (!fs.existsSync(frontendDistPath)) {
+  console.log("⚠️ frontend/dist not found. Building frontend...");
+
+  try {
+    execSync("npm install", {
+      cwd: frontendPath,
+      stdio: "inherit",
+    });
+
+    execSync("npm run build", {
+      cwd: frontendPath,
+      stdio: "inherit",
+    });
+
+    console.log("✅ Frontend build created successfully");
+  } catch (error) {
+    console.error("❌ Frontend build failed:", error.message);
+  }
+}
 
 // Middlewares
 app.use(
@@ -30,19 +56,15 @@ app.use("/api/payment", require("./routes/paymentRoutes"));
 app.use("/api/admin", require("./routes/adminRoutes"));
 app.use("/api/vendor", require("./routes/vendorRoutes"));
 
-// Health check
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK" });
 });
 
-// Serve React frontend in production
-const frontendPath = path.join(__dirname, "../frontend/dist");
+// Serve React frontend
+app.use(express.static(frontendDistPath));
 
-app.use(express.static(frontendPath));
-
-// React Router fallback
 app.get("*", (req, res) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
+  res.sendFile(path.join(frontendDistPath, "index.html"));
 });
 
 // Error handler
@@ -55,7 +77,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// MongoDB connection + server start
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
